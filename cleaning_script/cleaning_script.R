@@ -32,7 +32,7 @@ clean_data_missing <- clean_data %>%
 unique(clean_data$cancer_site)
 
 #Writing to csv file
-write_csv(clean_data, "cancer_incidence_clean.csv")
+write_csv(clean_data, "clean_data/cancer_incidence_clean.csv")
 
 
 
