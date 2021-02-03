@@ -1,0 +1,310 @@
+---
+title: "Cancer Incidence in NHS Borders"
+author: "Stephanie Duncan"
+date: "04/02/2021"
+output: html_document
+code_folding: hide
+---
+Analysis has been carried out on a dataset from NHS Scotland, in order to give insights into the incidence of cancer in the NHS Borders in 1994 - 2018. 
+
+In order to help the NHS to plan the provision of cancer treatment services, a variety of data visualisations were created to understand the following:
+
+1. Cancer incidence over time
+2. Trends in incidence by gender 
+3. Most prevalent cancer sites
+4. Comparison of NHS Borders to the rest of the Scottish Health Boards
+5. Crude Rate of Trachea, Bronchus and Lung Cancers by Gender
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = F, message = F, echo = F)
+```
+
+```{r}
+#Loading the relevant libraries
+library(tidyverse)
+library(janitor)
+library(here)
+```
+
+```{r}
+#Reading in the cleaned data 
+cancer_incidence <- read_csv(here("clean_data/cancer_incidence_clean.csv")) 
+```
+
+```{r}
+#Reading in the geography dataset
+geo_codes <- read_csv(here("clean_data/geography_codes_and_labels_hb2014_01042019.csv")) %>% 
+  clean_names()
+#The HB code for NHS borders is S08000016
+```
+
+```{r}
+#Merging the two datasets for reproducability in the future if looking at other areas
+cancer_geo <- left_join(cancer_incidence, geo_codes, by = "hb")
+```
+
+
+```{r}
+#Cancer incidence specifically in NHS Border
+cancer_incidence_border <- cancer_geo %>% 
+  filter(hb == "S08000016") %>% 
+  select(-hb, -hb_name, -hb_date_archived, -hb_date_enacted, -country)
+```
+## Cancer Incidence Over Time
+```{r all_genders, echo=FALSE}
+#Generating a graph of cancer incidence over the years
+cancer_incidence_border %>% 
+  filter(cancer_site == "All cancer types") %>% 
+  filter(sex == "All") %>% 
+  group_by(year) %>% 
+  summarise(total = sum(incidences_all_ages)) %>% 
+  ggplot() +
+  aes(x = year, y = total) +
+  geom_line() +
+  theme_minimal() +
+  labs(
+    x = "Year",
+    y = "Total Incidence All Ages",
+    title = "Cancer Incidence in NHS Borders",
+    subtitle = "1994 - 2018"
+  ) +
+  scale_x_continuous(breaks = (min(cancer_incidence_border$year):max(cancer_incidence_border$year))) +
+  theme(axis.text.x = element_text(angle=45,hjust=1)) 
+```
+
+From the plot, it can be seen that cancer incidence has increased overall from 1994 to 2018, however there is some irregularity. There were 518 incidences in 1994, compared to 828 incidences in 2018 - an increase by 59.8%.
+
+```{r percentage_increase, eval=FALSE, include=FALSE}
+cancer_incidence_border %>% 
+  filter(cancer_site == "All cancer types") %>%
+  filter(year == 1994 | year == 2018) %>% 
+  filter(sex == "All") %>% 
+  group_by(year) %>% 
+  summarise(total_incidences = sum(incidences_all_ages))
+
+#Percentage increase 1994 - 2018
+((828-518)/518)*100
+```
+
+## Trends in Incidence by Gender
+```{r}
+#Generating a plot of cancer incidence over the years by sex
+cancer_incidence_border %>% 
+  filter(cancer_site == "All cancer types") %>% 
+  filter(sex != "All") %>% 
+  ggplot() +
+  aes(x = year, y = incidences_all_ages, colour = sex) +
+  geom_line() +
+  #facet_wrap(~sex) +
+  theme_minimal() +
+  labs(
+    x = "Year",
+    y = "Total Incidence (All Ages)",
+    title = "Cancer Incidence by Gender in NHS Borders",
+    subtitle = "1994 - 2018",
+    colour = "Sex"
+  ) +
+  scale_x_continuous(breaks = (min(cancer_incidence_border$year):max(cancer_incidence_border$year))) +
+  theme(axis.text.x = element_text(angle=45,hjust=1)) 
+```
+
+Analysis on the incidence of cancer by gender shows that incidence is higher in females than males. However, in 2017, males had the highest incidence of cancer of all years where the figure surpassed 450 patients. As can be seen from the female graph, there is a spike in the incidence of cancer almost every three years. 
+
+## The Most Prevalent Cancer Sites
+```{r}
+#Number of cases by cancer site where incidence is over 100 cases.
+cancer_incidence_border %>% 
+  filter(cancer_site != "All cancer types") %>% 
+  filter(sex == "All") %>% 
+  group_by(cancer_site) %>% 
+  summarise(total = sum(incidences_all_ages)) %>% 
+  arrange(desc(total)) %>% 
+  filter(total >= 500) %>% 
+  ggplot() +
+  aes(x = reorder(cancer_site, total), y = total) +
+  geom_col() +
+  coord_flip() +
+  theme_minimal() +
+  labs(
+    y = "Total Incidence (All Ages)",
+    x = "Cancer Site",
+    title = "Number of Cases by Cancer Site",
+    subtitle = "1994 - 2018"
+  ) 
+
+```
+
+The most prevalent cancer sites for NHS Borders are:-
+
+1. Non-melanoma skin cancer
+2. Basal cell carcinoma of the skin
+3. Breast 
+4. Trachea, bronchus and lung
+5. Colorectal cancer
+
+
+## Most Prevalent Cancer Sites in Females
+```{r}
+#Common cancers for females 1994 - 2018 where incidence is higher than 100 cases
+cancer_incidence_border %>% 
+  filter(cancer_site != "All cancer types") %>% 
+  filter(sex == "Female") %>% 
+  group_by(cancer_site) %>% 
+  summarise(total = sum(incidences_all_ages)) %>% 
+  arrange(desc(total)) %>% 
+  filter(total >= 100) %>% 
+  ggplot() +
+  aes(x = reorder(cancer_site, total), y = total) +
+  geom_col() +
+  coord_flip() +
+  theme_minimal() +
+  labs(
+    y = "Number of Cases (All Ages)",
+    x = "Cancer Site",
+    title = "Number of Cases by Cancer Site in Females",
+    subtitle = "1994 - 2018"
+  ) 
+
+```
+
+
+The graph shows that the most prevalent cancer site for females is Breast Cancer (almost 2,500 cases), closely followed by Non-melanoma skin cancer. For females, there are a total of 30 variations of cancer sites where there are over 100 patient cases.
+
+## The Most Prevalent Cancer Sites in Males
+```{r}
+#Male cancer by ascending order where incidence is higher than 100 cases
+cancer_incidence_border %>% 
+  filter(cancer_site != "All cancer types") %>% 
+  filter(sex == "Male") %>% 
+  group_by(cancer_site) %>% 
+  summarise(total = sum(incidences_all_ages)) %>% 
+  filter(total >= 100) %>% 
+  arrange(desc(total)) %>% 
+  ggplot() +
+  aes(x = reorder(cancer_site, total), y = total) +
+  geom_col() +
+  coord_flip() +
+  theme_minimal() +
+  labs(
+    y = "Number of Cases (All Ages)",
+    x = "Cancer Site",
+    title = "Number of Cases by Cancer Site in Males",
+    subtitle = "1994 - 2018"
+  ) 
+```
+
+For males, the most prevalent cancer site is Non-melanoma skin cancer. This was also high for females (2411 cases), however there is a much higher incidence in males (3330 cases). For males, there are a total of 25 cancer sites where incidence is over 100 patient cases.
+
+```{r all_cancers_facet, include=FALSE}
+#Generating a plot to show the change over time for each cancer site
+cancer_incidence_border %>% 
+  filter(cancer_site != "All cancer types") %>% 
+  filter(sex == "All") %>% 
+  group_by(cancer_site, year) %>% 
+  summarise(total = sum(incidences_all_ages)) %>% 
+  ggplot() +
+  aes(x = year, y = total) +
+  geom_line() +
+  theme_minimal() +
+  labs(
+    y = "Number of Cases (All Ages)",
+    x = "Cancer Site",
+    title = "Number of Cases by Cancer Site",
+    subtitle = "1994 - 2018"
+  ) +
+  scale_x_continuous(breaks = c(1995, 2000, 2005, 2010, 2015, 2020)) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  facet_wrap(~cancer_site)
+```
+
+```{r nhs_names_list, eval=FALSE, include=FALSE}
+#Generate list of NHS names
+unique(cancer_geo$hb_name)
+```
+
+
+## Comparison of NHS Borders to the rest of the Scottish Health Boards
+```{r}
+#Compare Borders to rest of Scotland
+cancer_geo %>% 
+  filter(cancer_site == "All cancer types") %>% 
+  filter(sex == "All") %>% 
+  group_by(cancer_site, hb_name) %>% 
+  summarise(total = sum(incidences_all_ages)) %>% 
+  arrange(desc(total)) %>% 
+  ggplot() +
+  aes(x = reorder(hb_name, total), y = total) +
+  geom_col() +
+  theme_minimal() +
+  labs(
+    y = "Number of Cases (All Ages)",
+    x = "Health Board",
+    title = "Cancer Incidence in Scotland",
+    subtitle = "1994 - 2018"
+  ) +
+  coord_flip()
+```
+
+As can be seen from the plot, cancer incidence in the NHS Borders is low when compared to other parts of Scotland as a whole. This is possibly due to population density, however further investigation is required to create a fuller picture and confirm this.
+
+## Crude Rate of Trachea, Bronchus and Lung Cancers by Gender
+```{r}
+#Generate a scatter plot to carry out analysis on crude rate versus time for all genders an cancer sites overall
+cancer_incidence_border %>% 
+  filter(cancer_site == "Trachea, bronchus and lung") %>% 
+  filter(sex != "All") %>% 
+  ggplot() +
+  aes(x = year, y = crude_rate) +
+   #geom_point(aes(y = crude_rate_lower95pc_confidence_interval), color = "orange") +
+  #geom_point(aes(y = crude_rate_upper95pc_confidence_interval), color = "blue") +
+  geom_line() +
+  geom_point() +
+  theme_minimal() +
+  labs(
+    y = "Crude Rate",
+    x = "Year",
+    title = "Crude Rate of Trachea, Bronchus and Lung Cancers by Gender",
+    subtitle = "1994 - 2018"
+  ) +
+  scale_x_continuous(breaks = c(1995, 2000, 2005, 2010, 2015, 2020)) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  facet_wrap(~sex)
+
+
+```
+
+Analysis on the crude rate of Trachea, Bronchus and Lung Cancers by gender shows that the rate is much higher for males than for females. The crude rate has remained consistently high for males, whereas for females the rate has increased dramatically over time.
+
+## Conclusions
+1. Cancer incidence has increased during 1994 - 2018.
+2. Non-melanoma skin cancer is extremely high for both genders.
+3. The crude rate of Trachea, Bronchus and Lung Cancers is higher for males, however more recently the rate for females was low in 1994 and has increased to the point where the rate is now closely lagging behind males.
+
+
+Data Sources:- 
+
+Cancer Incidence - Cancer incidence data - https://www.opendata.nhs.scot/dataset/annual-cancer-incidence
+
+Geography health board labels lookup - https://www.opendata.nhs.scot/dataset/9f942fdb-e59e-44f5-b534-d6e17229cc7b/resource/652ff726-e676-4a20-abda-435b98dd7bdc/download/geography_codes_and_labels_hb2014_01042019.csv
+
+
+```{r eval=FALSE, include=FALSE}
+cancer_incidence_border %>% 
+  filter(cancer_site == "Trachea, bronchus and lung") %>% 
+  filter(sex != "All") %>% 
+  ggplot() +
+  aes(x = year, y = standardised_incidence_ratio) +
+  geom_line() +
+  geom_point() +
+  theme_minimal() +
+  labs(
+    y = "Crude Rate",
+    x = "Year",
+    title = "Crude Rate of Trachea, Bronchus and Lung Cancers by Gender",
+    subtitle = "1994 - 2018"
+  ) +
+  scale_x_continuous(breaks = c(1995, 2000, 2005, 2010, 2015, 2020)) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  facet_wrap(~sex)
+```
+
