@@ -248,7 +248,7 @@ cancer_geo %>%
   coord_flip()
 ```
 
-As can be seen from the plot, cancer incidence in the NHS Borders is low when compared to other parts of Scotland as a whole. This is possibly due to population density, however further investigation is required to create a fuller picture and confirm this.
+As can be seen from the plot, cancer incidence in the NHS Borders is low when compared to other parts of Scotland as a whole, possibly due to population density.
 
 ## Crude Rate of Trachea, Bronchus and Lung Cancers by Gender
 ```{r}
@@ -281,8 +281,9 @@ Analysis on the crude rate of Trachea, Bronchus and Lung Cancers by gender shows
 
 ## Conclusions
 1. Cancer incidence has increased during 1994 - 2018.
-2. Non-melanoma skin cancer is extremely high for both genders.
-3. The crude rate of Trachea, Bronchus and Lung Cancers is higher for males, however more recently the rate for females, which was low in 1994, has increased to the point where the rate is now closely lagging behind males.
+2. For females, there is a spike in the incidence of cancer almost every three years, further investigation is required to understand this. 
+3. Non-melanoma skin cancer is extremely high for both genders.
+4. The crude rate of Trachea, Bronchus and Lung Cancers is higher for males, however more recently the rate for females, which was low in 1994, has increased to the point where the rate is now closely lagging behind males.
 
 
 ## Data Sources:- 
