@@ -258,16 +258,17 @@ cancer_incidence_border %>%
   filter(sex != "All") %>% 
   ggplot() +
   aes(x = year, y = crude_rate) +
-   geom_point(aes(y = crude_rate_lower95pc_confidence_interval), color = "orange") +
-  geom_point(aes(y = crude_rate_upper95pc_confidence_interval), color = "blue") +
-  geom_line(colour = "red") +
+   geom_line(colour = "red") +
   geom_point(colour = "red") +
+  geom_point(aes(y = crude_rate_lower95pc_confidence_interval, colour = "Lower 95 Confidence Interval")) +
+  geom_point(aes(y = crude_rate_upper95pc_confidence_interval, color = "Higher 95 Confidence Interval")) +
   theme_minimal() +
   labs(
     y = "Crude Rate",
     x = "Year",
     title = "Crude Rate of Trachea, Bronchus and Lung Cancers by Gender",
-    subtitle = "1994 - 2018"
+    subtitle = "1994 - 2018",
+    colour = "Confidence Interval"
   ) +
   scale_x_continuous(breaks = c(1995, 2000, 2005, 2010, 2015, 2020)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
