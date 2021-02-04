@@ -60,7 +60,7 @@ cancer_incidence_border %>%
   summarise(total = sum(incidences_all_ages)) %>% 
   ggplot() +
   aes(x = year, y = total) +
-  geom_line() +
+  geom_line(colour = "red") +
   theme_minimal() +
   labs(
     x = "Year",
@@ -111,8 +111,9 @@ cancer_incidence_border %>%
 Analysis on the incidence of cancer by gender shows that incidence is higher in females than males. However, in 2017, males had the highest incidence of cancer of all years where the figure surpassed 450 patients. As can be seen from the female graph, there is a spike in the incidence of cancer almost every three years. 
 
 ## The Most Prevalent Cancer Sites
+### Where incidence is over 500 cases
 ```{r}
-#Number of cases by cancer site where incidence is over 100 cases.
+#Number of cases by cancer site where incidence is over 500 cases.
 cancer_incidence_border %>% 
   filter(cancer_site != "All cancer types") %>% 
   filter(sex == "All") %>% 
@@ -122,7 +123,7 @@ cancer_incidence_border %>%
   filter(total >= 500) %>% 
   ggplot() +
   aes(x = reorder(cancer_site, total), y = total) +
-  geom_col() +
+  geom_col(fill = "red") +
   coord_flip() +
   theme_minimal() +
   labs(
@@ -144,6 +145,7 @@ The most prevalent cancer sites for NHS Borders are:-
 
 
 ## Most Prevalent Cancer Sites in Females
+### Where incidence is over 100 cases
 ```{r}
 #Common cancers for females 1994 - 2018 where incidence is higher than 100 cases
 cancer_incidence_border %>% 
@@ -155,7 +157,7 @@ cancer_incidence_border %>%
   filter(total >= 100) %>% 
   ggplot() +
   aes(x = reorder(cancer_site, total), y = total) +
-  geom_col() +
+  geom_col(fill = "red") +
   coord_flip() +
   theme_minimal() +
   labs(
@@ -171,6 +173,7 @@ cancer_incidence_border %>%
 The graph shows that the most prevalent cancer site for females is Breast Cancer (almost 2,500 cases), closely followed by Non-melanoma skin cancer. For females, there are a total of 30 variations of cancer sites where there are over 100 patient cases.
 
 ## The Most Prevalent Cancer Sites in Males
+### Where incidence is over 100 cases
 ```{r}
 #Male cancer by ascending order where incidence is higher than 100 cases
 cancer_incidence_border %>% 
@@ -182,7 +185,7 @@ cancer_incidence_border %>%
   arrange(desc(total)) %>% 
   ggplot() +
   aes(x = reorder(cancer_site, total), y = total) +
-  geom_col() +
+  geom_col(fill = "red") +
   coord_flip() +
   theme_minimal() +
   labs(
@@ -202,7 +205,7 @@ cancer_incidence_border %>%
   filter(sex == "All") %>% 
   group_by(cancer_site, year) %>% 
   summarise(total = sum(incidences_all_ages)) %>% 
-  ggplot() +
+  ggplot(fill = "red") +
   aes(x = year, y = total) +
   geom_line() +
   theme_minimal() +
@@ -234,7 +237,7 @@ cancer_geo %>%
   arrange(desc(total)) %>% 
   ggplot() +
   aes(x = reorder(hb_name, total), y = total) +
-  geom_col() +
+  geom_col(fill = "red") +
   theme_minimal() +
   labs(
     y = "Number of Cases (All Ages)",
@@ -255,10 +258,10 @@ cancer_incidence_border %>%
   filter(sex != "All") %>% 
   ggplot() +
   aes(x = year, y = crude_rate) +
-   #geom_point(aes(y = crude_rate_lower95pc_confidence_interval), color = "orange") +
-  #geom_point(aes(y = crude_rate_upper95pc_confidence_interval), color = "blue") +
-  geom_line() +
-  geom_point() +
+   geom_point(aes(y = crude_rate_lower95pc_confidence_interval), color = "orange") +
+  geom_point(aes(y = crude_rate_upper95pc_confidence_interval), color = "blue") +
+  geom_line(colour = "red") +
+  geom_point(colour = "red") +
   theme_minimal() +
   labs(
     y = "Crude Rate",
@@ -278,7 +281,7 @@ Analysis on the crude rate of Trachea, Bronchus and Lung Cancers by gender shows
 ## Conclusions
 1. Cancer incidence has increased during 1994 - 2018.
 2. Non-melanoma skin cancer is extremely high for both genders.
-3. The crude rate of Trachea, Bronchus and Lung Cancers is higher for males, however more recently the rate for females was low in 1994 and has increased to the point where the rate is now closely lagging behind males.
+3. The crude rate of Trachea, Bronchus and Lung Cancers is higher for males, however more recently the rate for females, which was low in 1994, has increased to the point where the rate is now closely lagging behind males.
 
 
 ## Data Sources:- 
