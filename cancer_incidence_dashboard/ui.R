@@ -17,6 +17,7 @@ ui <- dashboardPage(
             menuItem("Temporal", tabName = "cancer_incidence_area"),
             menuItem("Cancer Sites", tabName = "cancer_site_tab"),
             menuItem("Crude Rates", tabName = "crude_rate_tab"),
+            menuItem("Most Prevalent", tabName = "prevalent_tab"),
             menuItem("About", tabName = "about")
         )
     ),
@@ -154,6 +155,43 @@ ui <- dashboardPage(
                     )
             ), 
             
+            
+            # Fourth tab - Most prevalent cancer sites
+            tabItem(tabName = "prevalent_tab",
+                    h2("Most Prevalent Cancer Sites"),
+                    
+                    fluidRow(
+                        box(width = 12,
+                            background = "light-blue",
+                            column(width = 6, 
+                                   selectInput(inputId = "hb_name_four",
+                                               label = "Area",
+                                               choices = sort(unique(cancer_geo$hb_name)),
+                                               selected = "NHS Ayrshire and Arran")
+                            ),
+                            
+                            
+                            column(width = 6, 
+                                   align = "center",
+                                   radioButtons(inputId = "sex_four",
+                                                label = "Sex",
+                                                choices = unique(cancer_geo$sex),
+                                                selected = "All",
+                                                inline = TRUE) 
+                            )
+                        )
+                    ),
+                    
+                    fluidRow(
+                        
+                        box(
+                            title = "Most Prevalent by Area & Gender", 
+                            solidHeader = TRUE,
+                            status = "primary",
+                            plotOutput("prevalent_output", height = 350)
+                        )
+                    )
+            ), 
             
             
             # About tab content

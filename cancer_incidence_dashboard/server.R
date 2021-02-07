@@ -89,6 +89,37 @@ server <- function(input, output) {
                 theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
             
         })
+        
+        
+        ##################Fourth tab content - most prevalent cancer sites
+        prevalent_output <- reactive({
+            cancer_geo %>% 
+                filter(hb_name == input$hb_name_four,
+                       sex == input$sex_four)
+            
+        })
+        
+        output$prevalent_output <- renderPlot({
+            
+            prevalent_output() %>%
+                filter(cancer_site != "All cancer types") %>% 
+                group_by(cancer_site) %>% 
+                summarise(total = sum(incidences_all_ages)) %>% 
+                filter(total >= 500) %>% 
+                arrange(desc(total)) %>% 
+                ggplot() +
+                aes(x = reorder(cancer_site, total), y = total) +
+                geom_col(fill = "red") +
+                coord_flip() +
+                theme_minimal() +
+                labs(
+                    y = "Number of Cases (All Ages)",
+                    x = "Cancer Site",
+                    title = "Number of Cases by Cancer Site",
+                    subtitle = "Where Incidence is over 500 Cases"
+                ) 
+            
+        })
     
     
 }
