@@ -15,7 +15,8 @@ ui <- dashboardPage(
     dashboardSidebar(
         sidebarMenu(
             menuItem("Temporal", tabName = "cancer_incidence_area"),
-            menuItem("Cancer Site", tabName = "cancer_site_tab"),
+            menuItem("Cancer Sites", tabName = "cancer_site_tab"),
+            menuItem("Crude Rates", tabName = "crude_rate_tab"),
             menuItem("About", tabName = "about")
         )
     ),
@@ -103,6 +104,52 @@ ui <- dashboardPage(
                             solidHeader = TRUE,
                             status = "primary",
                             plotOutput("site_output", height = 250)
+                        )
+                    )
+            ), 
+            
+            
+            # Third tab - Crude rate content
+            tabItem(tabName = "crude_rate_tab",
+                    h2("Crude Rates"),
+                    
+                    fluidRow(
+                        box(width = 12,
+                            background = "light-blue",
+                            column(width = 6, 
+                                   selectInput(inputId = "hb_name_three",
+                                               label = "Area",
+                                               choices = sort(unique(cancer_geo$hb_name)),
+                                               selected = "NHS Ayrshire and Arran")
+                            ),
+                            
+                            column(width = 6, 
+                                   align = "center",
+                                   selectInput(inputId = "cancer_site_three",
+                                               label = "Cancer Site",
+                                               choices = unique(cancer_geo$cancer_site),
+                                               selected = "All cancer types") 
+                                   
+                            ),
+                            
+                            column(width = 6, 
+                                   align = "center",
+                                   radioButtons(inputId = "sex_three",
+                                                label = "Sex",
+                                                choices = unique(cancer_geo$sex),
+                                                selected = "All",
+                                                inline = TRUE) 
+                            )
+                        )
+                    ),
+                    
+                    fluidRow(
+                        
+                        box(
+                            title = "Crude Rates by Area & Gender", 
+                            solidHeader = TRUE,
+                            status = "primary",
+                            plotOutput("crude_rate_output", height = 250)
                         )
                     )
             ), 
