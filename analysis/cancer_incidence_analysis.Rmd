@@ -293,7 +293,7 @@ Cancer incidence data - https://www.opendata.nhs.scot/dataset/annual-cancer-inci
 Geography health board labels lookup - https://www.opendata.nhs.scot/dataset/9f942fdb-e59e-44f5-b534-d6e17229cc7b/resource/652ff726-e676-4a20-abda-435b98dd7bdc/download/geography_codes_and_labels_hb2014_01042019.csv
 
 
-```{r eval=FALSE, include=FALSE}
+```{r echo=TRUE}
 cancer_incidence_border %>% 
   filter(cancer_site == "Trachea, bronchus and lung") %>% 
   filter(sex != "All") %>% 
@@ -303,9 +303,9 @@ cancer_incidence_border %>%
   geom_point() +
   theme_minimal() +
   labs(
-    y = "Crude Rate",
+    y = "Standardised Incident Ratio",
     x = "Year",
-    title = "Crude Rate of Trachea, Bronchus and Lung Cancers by Gender",
+    title = "Standardised Incident Ratio of Trachea, Bronchus and Lung Cancers by Gender",
     subtitle = "1994 - 2018"
   ) +
   scale_x_continuous(breaks = c(1995, 2000, 2005, 2010, 2015, 2020)) +

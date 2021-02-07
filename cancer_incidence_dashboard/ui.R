@@ -15,6 +15,7 @@ ui <- dashboardPage(
     dashboardSidebar(
         sidebarMenu(
             menuItem("Temporal", tabName = "cancer_incidence_area"),
+            menuItem("Cancer Site", tabName = "cancer_site_tab"),
             menuItem("About", tabName = "about")
         )
     ),
@@ -60,6 +61,53 @@ ui <- dashboardPage(
                     )
                     ), 
                         
+            
+            # Second tab - Cancer site content
+            tabItem(tabName = "cancer_site_tab",
+                    h2("Cancer Incidence"),
+                    
+                    fluidRow(
+                        box(width = 12,
+                            background = "light-blue",
+                            column(width = 6, 
+                                   selectInput(inputId = "hb_name_two",
+                                               label = "Area",
+                                               choices = sort(unique(cancer_geo$hb_name)),
+                                               selected = "NHS Ayrshire and Arran")
+                            ),
+                            
+                            column(width = 6, 
+                                   align = "center",
+                                   selectInput(inputId = "cancer_site_two",
+                                               label = "Cancer Site",
+                                               choices = unique(cancer_geo$cancer_site),
+                                               selected = "All cancer types") 
+                                   
+                            ),
+                            
+                            column(width = 6, 
+                                   align = "center",
+                                   radioButtons(inputId = "sex_two",
+                                                label = "Sex",
+                                                choices = unique(cancer_geo$sex),
+                                                selected = "All",
+                                                inline = TRUE) 
+                            )
+                        )
+                    ),
+                    
+                    fluidRow(
+                        
+                        box(
+                            title = "By Cancer Site & Gender", 
+                            solidHeader = TRUE,
+                            status = "primary",
+                            plotOutput("site_output", height = 250)
+                        )
+                    )
+            ), 
+            
+            
             
             # About tab content
             tabItem(tabName = "about",
