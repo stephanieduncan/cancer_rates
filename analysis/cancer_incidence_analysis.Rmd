@@ -215,7 +215,7 @@ cancer_incidence_border %>%
     title = "Number of Cases by Cancer Site",
     subtitle = "1994 - 2018"
   ) +
-  scale_x_continuous(breaks = c(1995, 2000, 2005, 2010, 2015, 2020)) +
+  scale_x_continuous(breaks = (min(cancer_geo$year):max(cancer_geo$year))) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   facet_wrap(~cancer_site)
 ```
@@ -271,8 +271,8 @@ cancer_incidence_border %>%
     title = "Crude Rate of Trachea, Bronchus and Lung Cancers by Gender",
     subtitle = "1994 - 2018",
     colour = "Confidence Interval"
-  ) +
-  scale_x_continuous(breaks = c(1995, 2000, 2005, 2010, 2015, 2020)) +
+  ) 
+            scale_x_continuous(breaks = (min(cancer_geo$year):max(cancer_geo$year))) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   facet_wrap(~sex)
 

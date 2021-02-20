@@ -84,7 +84,7 @@ server <- function(input, output) {
                 title = "1994 - 2018",
                 colour = "Confidence Interval"
             ) +
-            scale_x_continuous(breaks = c(1995, 2000, 2005, 2010, 2015, 2020)) +
+            scale_x_continuous(breaks = c(1995, 2000, 2005, 2010, 2015, 2020))  +
             theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
         
     })
