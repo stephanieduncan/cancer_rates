@@ -17,6 +17,7 @@ server <- function(input, output) {
             ggplot() +
             aes(x = year, y = total) +
             geom_line(colour = "red") +
+            geom_point(colour = "red") +
             theme_minimal() +
             labs(
                 x = "Year",
@@ -28,7 +29,7 @@ server <- function(input, output) {
         
     })
     
-    ##################Second tab content - cancer sites
+    ##################cancer sites
     site_output <- reactive({
         cancer_geo %>% 
             filter(hb_name == input$hb_name_two,
@@ -45,6 +46,7 @@ server <- function(input, output) {
             ggplot() +
             aes(x = year, y = total) +
             geom_line(colour = "red") +
+            geom_point(colour = "red") +
             theme_minimal() +
             labs(
                 x = "Year",
@@ -57,7 +59,7 @@ server <- function(input, output) {
     })
     
     
-    ##################Third tab content - crude rates
+    ##################crude rates
     crude_rate_output <- reactive({
         cancer_geo %>% 
             filter(hb_name == input$hb_name_three,
@@ -90,7 +92,7 @@ server <- function(input, output) {
     })
     
     
-    ##################Fourth tab content - most prevalent cancer sites
+    ##################Most prevalent cancer sites
     prevalent_output <- reactive({
         cancer_geo %>% 
             filter(hb_name == input$hb_name_four,

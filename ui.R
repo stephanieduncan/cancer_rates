@@ -17,8 +17,8 @@ ui <- dashboardPage(
         sidebarMenu(
             menuItem("Temporal", tabName = "cancer_incidence_area"),
             menuItem("Cancer Sites", tabName = "cancer_site_tab"),
-            menuItem("Crude Rates", tabName = "crude_rate_tab"),
             menuItem("Most Prevalent", tabName = "prevalent_tab"),
+            menuItem("Crude Rates", tabName = "crude_rate_tab"),
             menuItem("About", tabName = "about")
         )
     ),
@@ -27,7 +27,10 @@ ui <- dashboardPage(
     dashboardBody(
         shinyDashboardThemes(theme = "blue_gradient"),
         tabItems(
-            # First tab content
+            
+            
+            
+            # Temporal content
             tabItem(tabName = "cancer_incidence_area",
                     h2("Overview of Cancer Incidence in Scotland"),
                     
@@ -65,7 +68,7 @@ ui <- dashboardPage(
             ), 
             
             
-            # Second tab - Cancer site content
+            # Cancer site content
             tabItem(tabName = "cancer_site_tab",
                     h2("Cancer Sites"),
                     
@@ -111,7 +114,45 @@ ui <- dashboardPage(
             ), 
             
             
-            # Third tab - Crude rate content
+            # Most prevalent cancer sites
+            tabItem(tabName = "prevalent_tab",
+                    h2("Most Prevalent Cancer Sites"),
+                    
+                    fluidRow(
+                        box(width = 12,
+                            background = "light-blue",
+                            column(width = 6, 
+                                   selectInput(inputId = "hb_name_four",
+                                               label = "Area",
+                                               choices = sort(unique(cancer_geo$hb_name)),
+                                               selected = "NHS Ayrshire and Arran")
+                            ),
+                            
+                            
+                            column(width = 6, 
+                                   align = "center",
+                                   radioButtons(inputId = "sex_four",
+                                                label = "Gender",
+                                                choices = unique(cancer_geo$sex),
+                                                selected = "All",
+                                                inline = TRUE) 
+                            )
+                        )
+                    ),
+                    
+                    fluidRow(
+                        
+                        box(
+                            title = "Most Prevalent Cancer Site by Area & Gender", 
+                            solidHeader = TRUE,
+                            status = "primary",
+                            plotOutput("prevalent_output", height = 350)
+                        )
+                    )
+            ), 
+            
+            
+            # Crude rate content
             tabItem(tabName = "crude_rate_tab",
                     h2("Crude Rates"),
                     
@@ -156,43 +197,6 @@ ui <- dashboardPage(
                     )
             ), 
             
-            
-            # Fourth tab - Most prevalent cancer sites
-            tabItem(tabName = "prevalent_tab",
-                    h2("Most Prevalent Cancer Sites"),
-                    
-                    fluidRow(
-                        box(width = 12,
-                            background = "light-blue",
-                            column(width = 6, 
-                                   selectInput(inputId = "hb_name_four",
-                                               label = "Area",
-                                               choices = sort(unique(cancer_geo$hb_name)),
-                                               selected = "NHS Ayrshire and Arran")
-                            ),
-                            
-                            
-                            column(width = 6, 
-                                   align = "center",
-                                   radioButtons(inputId = "sex_four",
-                                                label = "Gender",
-                                                choices = unique(cancer_geo$sex),
-                                                selected = "All",
-                                                inline = TRUE) 
-                            )
-                        )
-                    ),
-                    
-                    fluidRow(
-                        
-                        box(
-                            title = "Most Prevalent Cancer Site by Area & Gender", 
-                            solidHeader = TRUE,
-                            status = "primary",
-                            plotOutput("prevalent_output", height = 350)
-                        )
-                    )
-            ), 
             
             
             # About tab content

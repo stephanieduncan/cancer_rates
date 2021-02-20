@@ -5,8 +5,8 @@ account: stephanieduncan
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 3669474
-bundleId: 4248896
+bundleId: 4248916
 url: https://stephanieduncan.shinyapps.io/cancer_rates/
-when: 1613835311.66056
+when: 1613835693.27042
 asMultiple: FALSE
 asStatic: FALSE
