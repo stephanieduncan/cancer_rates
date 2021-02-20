@@ -257,11 +257,13 @@ cancer_incidence_border %>%
   filter(cancer_site == "Trachea, bronchus and lung") %>% 
   filter(sex != "All") %>% 
   ggplot() +
-  aes(x = year, y = crude_rate) +
-   geom_line(colour = "red") +
-  geom_point(colour = "red") +
-  geom_point(aes(y = crude_rate_lower95pc_confidence_interval, colour = "Lower 95 Confidence Interval")) +
-  geom_point(aes(y = crude_rate_upper95pc_confidence_interval, color = "Higher 95 Confidence Interval")) +
+            aes(x = year, y = crude_rate) +
+            geom_line(colour = "red") +
+            geom_point(colour = "red") +
+            geom_line(aes(y = crude_rate_lower95pc_confidence_interval, colour = "Lower 95 Confidence Interval")) +
+            geom_point(aes(y = crude_rate_lower95pc_confidence_interval, colour = "Lower 95 Confidence Interval")) +
+            geom_line(aes(y = crude_rate_upper95pc_confidence_interval, color = "Higher 95 Confidence Interval")) +
+            geom_point(aes(y = crude_rate_upper95pc_confidence_interval, color = "Higher 95 Confidence Interval")) +
   theme_minimal() +
   labs(
     y = "Crude Rate",

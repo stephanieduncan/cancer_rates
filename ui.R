@@ -41,7 +41,7 @@ ui <- dashboardPage(
                                                selected = "NHS Ayrshire and Arran"
                                    )
                             ),
-                        
+                            
                             column(width = 6, 
                                    align = "center",
                                    radioButtons(inputId = "sex",
@@ -52,7 +52,7 @@ ui <- dashboardPage(
                             )
                         )
                     ),
-                        
+                    
                     fluidRow(
                         
                         box(
@@ -62,8 +62,8 @@ ui <- dashboardPage(
                             plotOutput("incidence_output", height = 250)
                         )
                     )
-                    ), 
-                        
+            ), 
+            
             
             # Second tab - Cancer site content
             tabItem(tabName = "cancer_site_tab",
@@ -199,7 +199,7 @@ ui <- dashboardPage(
             tabItem(tabName = "about",
                     h1("About"),
                     h3("Author:", tags$a(href = "https://www.linkedin.com/in/stephanie-mpd/",
-                                      "Stephanie Duncan")),
+                                         "Stephanie Duncan")),
                     "This interactive dashboard gives insights and trends on cancer incidence in Scotland between 1994 - 2018. Cancer incidence is broken down by health board (area), cancer site and gender.",
                     br(),
                     "The code I wrote to produce this dashboard can be found on my ", tags$a(href = "https://github.com/stephanieduncan/cancer_rates/", "Github Repository"),
@@ -216,7 +216,7 @@ ui <- dashboardPage(
                             br(),
                             tags$a(href="https://www.opendata.nhs.scot/dataset/9f942fdb-e59e-44f5-b534-d6e17229cc7b/resource/652ff726-e676-4a20-abda-435b98dd7bdc", 
                                    "Geography Health Board Labels Lookup")
-                    )
+                        )
                     )
             )
         )
