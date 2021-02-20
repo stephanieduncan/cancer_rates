@@ -1,0 +1,12 @@
+name: cancer_rates
+title: cancer_rates
+username:
+account: stephanieduncan
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3669474
+bundleId: 4248695
+url: https://stephanieduncan.shinyapps.io/cancer_rates/
+when: 1613830473.90506
+asMultiple: FALSE
+asStatic: FALSE

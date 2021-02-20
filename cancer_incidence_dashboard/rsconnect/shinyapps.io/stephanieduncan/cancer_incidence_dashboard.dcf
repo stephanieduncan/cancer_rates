@@ -1,0 +1,12 @@
+name: cancer_incidence_dashboard
+title: cancer_incidence_dashboard
+username:
+account: stephanieduncan
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3669439
+bundleId: 4248515
+url: https://stephanieduncan.shinyapps.io/cancer_incidence_dashboard/
+when: 1613826069.80163
+asMultiple: FALSE
+asStatic: FALSE

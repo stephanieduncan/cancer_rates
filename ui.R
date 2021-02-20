@@ -29,7 +29,7 @@ ui <- dashboardPage(
         tabItems(
             # First tab content
             tabItem(tabName = "cancer_incidence_area",
-                    h2("Cancer Incidence"),
+                    h2("Overview of Cancer Incidence in Scotland"),
                     
                     fluidRow(
                         box(width = 12,
@@ -45,7 +45,7 @@ ui <- dashboardPage(
                             column(width = 6, 
                                    align = "center",
                                    radioButtons(inputId = "sex",
-                                                label = "Sex",
+                                                label = "Gender",
                                                 choices = unique(cancer_geo$sex),
                                                 selected = "All",
                                                 inline = TRUE) 
@@ -56,7 +56,7 @@ ui <- dashboardPage(
                     fluidRow(
                         
                         box(
-                            title = "By Area & Gender", 
+                            title = "Cancer Incidence by Area & Gender", 
                             solidHeader = TRUE,
                             status = "primary",
                             plotOutput("incidence_output", height = 250)
@@ -67,7 +67,7 @@ ui <- dashboardPage(
             
             # Second tab - Cancer site content
             tabItem(tabName = "cancer_site_tab",
-                    h2("Cancer Incidence"),
+                    h2("Cancer Sites"),
                     
                     fluidRow(
                         box(width = 12,
@@ -91,7 +91,7 @@ ui <- dashboardPage(
                             column(width = 6, 
                                    align = "center",
                                    radioButtons(inputId = "sex_two",
-                                                label = "Sex",
+                                                label = "Gender",
                                                 choices = unique(cancer_geo$sex),
                                                 selected = "All",
                                                 inline = TRUE) 
@@ -102,7 +102,7 @@ ui <- dashboardPage(
                     fluidRow(
                         
                         box(
-                            title = "By Cancer Site & Gender", 
+                            title = "Cancer Incidence by Cancer Site, Area & Gender", 
                             solidHeader = TRUE,
                             status = "primary",
                             plotOutput("site_output", height = 250)
@@ -137,7 +137,7 @@ ui <- dashboardPage(
                             column(width = 6, 
                                    align = "center",
                                    radioButtons(inputId = "sex_three",
-                                                label = "Sex",
+                                                label = "Gender",
                                                 choices = unique(cancer_geo$sex),
                                                 selected = "All",
                                                 inline = TRUE) 
@@ -148,7 +148,7 @@ ui <- dashboardPage(
                     fluidRow(
                         
                         box(
-                            title = "Crude Rates by Area & Gender", 
+                            title = "Crude Rates by Cancer Site, Area & Gender", 
                             solidHeader = TRUE,
                             status = "primary",
                             plotOutput("crude_rate_output", height = 250)
@@ -175,7 +175,7 @@ ui <- dashboardPage(
                             column(width = 6, 
                                    align = "center",
                                    radioButtons(inputId = "sex_four",
-                                                label = "Sex",
+                                                label = "Gender",
                                                 choices = unique(cancer_geo$sex),
                                                 selected = "All",
                                                 inline = TRUE) 
@@ -186,7 +186,7 @@ ui <- dashboardPage(
                     fluidRow(
                         
                         box(
-                            title = "Most Prevalent by Area & Gender", 
+                            title = "Most Prevalent Cancer Site by Area & Gender", 
                             solidHeader = TRUE,
                             status = "primary",
                             plotOutput("prevalent_output", height = 350)
@@ -198,6 +198,15 @@ ui <- dashboardPage(
             # About tab content
             tabItem(tabName = "about",
                     h1("About"),
+                    h3("Author:", tags$a(href = "https://www.linkedin.com/in/stephanie-mpd/",
+                                      "Stephanie Duncan")),
+                    "This interactive dashboard gives insights and trends on cancer incidence in Scotland between 1994 - 2018. Cancer incidence is broken down by health board (area), cancer site and gender.",
+                    br(),
+                    "The code I wrote to produce this dashboard can be found on my ", tags$a(href = "https://github.com/stephanieduncan/cancer_rates/", "Github Repository"),
+                    br(),
+                    "The data used to carry out analysis for this dashboard is open source and can be found in the links below.",
+                    br(),
+                    br(),
                     fluidRow(
                         box(title = "Data Sources", solidHeader = TRUE, status = "primary",
                             h5(strong("NHS Scotland")),
@@ -205,7 +214,7 @@ ui <- dashboardPage(
                             tags$a(href="https://www.opendata.nhs.scot/dataset/annual-cancer-incidence", 
                                    "Cancer Incidence Data"),
                             br(),
-                            tags$a(href="https://www.opendata.nhs.scot/dataset/9f942fdb-e59e-44f5-b534-d6e17229cc7b/resource/652ff726-e676-4a20-abda-435b98dd7bdc/download/geography_codes_and_labels_hb2014_01042019.csv", 
+                            tags$a(href="https://www.opendata.nhs.scot/dataset/9f942fdb-e59e-44f5-b534-d6e17229cc7b/resource/652ff726-e676-4a20-abda-435b98dd7bdc", 
                                    "Geography Health Board Labels Lookup")
                     )
                     )
