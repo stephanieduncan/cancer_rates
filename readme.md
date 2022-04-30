@@ -71,7 +71,7 @@ Analysis on the crude rate of Trachea, Bronchus and Lung Cancers by gender shows
 
 ## Conclusions
 1. Cancer incidence has increased during 1994 - 2018.
-2. For females, there is a spike in the incidence of cancer almost every three years, further investigation is required to understand this. 
+2. For females, there is a spike in the incidence of cancer every three years due to three year screening cycles.
 3. Non-melanoma skin cancer is extremely high for both genders.
 4. The crude rate of Trachea, Bronchus and Lung Cancers is higher for males, however more recently the rate for females, which was low in 1994, has increased to the point where the rate is now closely lagging behind males.
 
