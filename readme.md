@@ -2,7 +2,7 @@
 by Stephanie Duncan </br>
 23/02/2021
 
-A personal project I have been working on recently is creating a dashboard for Cancer Incidence in the UK. At the moment I have almost completed my analysis for Scotland.
+A personal project I have been working on recently is creating a dashboard for Cancer Incidence in Scotland.
 
 I used R Shiny to build an interactive web app to show my analysis in a user-friendly way.
 
